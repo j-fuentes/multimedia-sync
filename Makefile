@@ -1,4 +1,4 @@
-.PHONY: vet format deps-tidy check-git-clean test build ci-test
+.PHONY: vet format deps-tidy check-git-clean test build ci-test docker-build
 
 vet:
 	go vet .
@@ -20,5 +20,8 @@ build: ./output/multimedia-sync
 
 ./output/multimedia-sync:
 	go build -o $@ .
+
+docker-build:
+	docker build .
 
 ci-test: vet format deps-tidy check-git-clean test
