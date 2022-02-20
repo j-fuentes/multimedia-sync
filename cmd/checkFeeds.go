@@ -19,7 +19,7 @@ var checkFeedsCmd = &cobra.Command{
 			if err != nil {
 				log.Fatalf("cannot open file: %+v", err)
 			}
-			
+
 			ff, err := feeds.LoadFeeds(bb)
 			if err != nil {
 				log.Fatal(err)

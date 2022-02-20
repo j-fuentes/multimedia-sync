@@ -9,7 +9,7 @@ import (
 func TestLoadFeeds(t *testing.T) {
 	tests := []struct {
 		name    string
-		input string
+		input   string
 		want    []*Feed
 		wantErr bool
 	}{
@@ -25,12 +25,12 @@ func TestLoadFeeds(t *testing.T) {
 `,
 			[]*Feed{
 				{
-					ID: "abc1",
+					ID:   "abc1",
 					Name: "feed1",
 					Kind: "YoutubePlaylist",
 				},
 				{
-					ID: "abc2",
+					ID:   "abc2",
 					Name: "feed2",
 					Kind: "YoutubePlaylist",
 				},

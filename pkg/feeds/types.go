@@ -30,7 +30,6 @@ func (f *Feed) Validate() error {
 
 	isAlpha := regexp.MustCompile(`^[A-Za-z0-9]+$`).MatchString
 
-
 	if f.ID == "" {
 		result = multierror.Append(result, errors.New("id cannot be empty"))
 	} else {
