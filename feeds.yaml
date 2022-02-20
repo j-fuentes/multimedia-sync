@@ -1,0 +1,5 @@
+- id: 1345
+  name: list1
+  kind: YoutubePlaylist
+  config:
+    url: https://www.youtube.com/playlist?list=ID
