@@ -15,6 +15,5 @@ func SyncFeeds(baseDir string, feeds []*Feed) error {
 func SyncFeed(baseDir string, feed *Feed) error {
 	// TODO: implement proper conversion between config and feeds implementation
 
-
 	return nil
 }

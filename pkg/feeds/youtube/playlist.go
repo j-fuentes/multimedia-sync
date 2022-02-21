@@ -37,7 +37,6 @@ func (p *YoutubePlaylistFeed) SyncToDirectory(dir string) (int, error) {
 		numVideos++
 	}
 
-
 	return numVideos, nil
 }
 
