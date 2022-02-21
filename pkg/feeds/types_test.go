@@ -18,21 +18,21 @@ func TestLoadFeeds(t *testing.T) {
 			`
 - id: abc1
   name: feed1
-  kind: YoutubePlaylist
+  kind: youtube_playlist
 - id: abc2
   name: feed2
-  kind: YoutubePlaylist
+  kind: youtube_playlist
 `,
 			[]*Feed{
 				{
 					ID:   "abc1",
 					Name: "feed1",
-					Kind: "YoutubePlaylist",
+					Kind: "youtube_playlist",
 				},
 				{
 					ID:   "abc2",
 					Name: "feed2",
-					Kind: "YoutubePlaylist",
+					Kind: "youtube_playlist",
 				},
 			},
 			false,
@@ -42,7 +42,7 @@ func TestLoadFeeds(t *testing.T) {
 			`
 - id: abc1
   name: feed1
-  kind: YoutubePlaylist
+  kind: youtube_playlist
 - id: abc2
   name: feed2
   kind: Unexisting
@@ -55,7 +55,7 @@ func TestLoadFeeds(t *testing.T) {
 			`
 - id: abc+1
   name: feed1
-  kind: YoutubePlaylist
+  kind: youtube_playlist
 `,
 			nil,
 			true,
@@ -64,7 +64,7 @@ func TestLoadFeeds(t *testing.T) {
 			"detects empty ID",
 			`
 - name: feed1
-  kind: YoutubePlaylist
+  kind: youtube_playlist
 `,
 			nil,
 			true,
@@ -73,7 +73,7 @@ func TestLoadFeeds(t *testing.T) {
 			"detects empty Name",
 			`
 - id: abc1
-  kind: YoutubePlaylist
+  kind: youtube_playlist
 `,
 			nil,
 			true,
