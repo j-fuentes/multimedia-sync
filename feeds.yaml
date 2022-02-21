@@ -1,5 +1,6 @@
-- id: 1345
-  name: list1
-  kind: YoutubePlaylist
+- id: list1
+  name: My test list
+  kind: youtube_playlist
+  youtube_playlist:
+    url: https://www.youtube.com/playlist?list=PLnc2tTsYPwU7rOBgsexo6dHdV_X_-xRsk
   config:
-    url: https://www.youtube.com/playlist?list=ID

@@ -3,18 +3,21 @@ package feeds
 import (
 	"errors"
 	"fmt"
+	"os"
+	"path"
 	"regexp"
 
 	"github.com/hashicorp/go-multierror"
+	"github.com/j-fuentes/multimedia-sync/pkg/feeds/youtube"
 	"gopkg.in/yaml.v2"
 )
 
 const (
 	// KindYoutubePlaylist is the feed kind of a Youtube playlist
-	KindYoutubePlaylist = "YoutubePlaylist"
+	KindYoutubePlaylist = "youtube_playlist"
 )
 
-// Feed describes the properties of a feed
+// Feed describes the properties of a feed.
 type Feed struct {
 	// ID is the unique id of a feed
 	ID string `yaml:"id"`
@@ -22,6 +25,42 @@ type Feed struct {
 	Name string `yaml:"name"`
 	// Kind is the kind of feed
 	Kind string `yaml:"kind"`
+	// Config is general config for the feed
+	Config *Config `yaml:"config"`
+
+	// YoutubePlaylist is the config for a YoutubePlaylist feed.
+	YoutubePlaylist *youtube.YoutubePlaylistFeed `yaml:"youtube_playlist"`
+}
+
+// FeedImplementation is the interface that all the feed implementations need to satisfy.
+type FeedImplementation interface {
+	SyncToDirectory(dir string) (int, error)
+}
+
+// Config is the general configuration for the feed.
+type Config struct {
+	// OnlyAudio downloads only the audio from video. It does nothing with audio feeds.
+	// TODO: at the moment this does nothing, it is still to be implemented.
+	OnlyAudio bool `yaml:"only_audio,omitempty"`
+}
+
+// Sync syncs the feed to its corresponding directory inside rootDir.
+func (f *Feed) Sync(rootDir string) (int, error) {
+	var impl FeedImplementation	
+	switch f.Kind {
+	case KindYoutubePlaylist:
+		impl = f.YoutubePlaylist
+	default:
+		return 0, fmt.Errorf("unknown kind %q", f.Kind)
+	}
+
+	dir := path.Join(rootDir, f.ID)
+	err := os.MkdirAll(dir, os.ModePerm)
+	if err != nil {
+		return 0, err
+	}
+
+	return impl.SyncToDirectory(dir)
 }
 
 // Validate returns the validation errors in the feed description if any
