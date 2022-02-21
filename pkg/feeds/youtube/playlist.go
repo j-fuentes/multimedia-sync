@@ -73,5 +73,7 @@ func downloadVideo(client youtube.Client, video *youtube.Video, path string) err
 		return fmt.Errorf("cannot download stream: %w", err)
 	}
 
+	// TODO: add metadata to file: author, title, etc.
+
 	return nil
 }
