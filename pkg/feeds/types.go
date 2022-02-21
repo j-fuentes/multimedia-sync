@@ -46,7 +46,7 @@ type Config struct {
 
 // Sync syncs the feed to its corresponding directory inside rootDir.
 func (f *Feed) Sync(rootDir string) (int, error) {
-	var impl FeedImplementation	
+	var impl FeedImplementation
 	switch f.Kind {
 	case KindYoutubePlaylist:
 		impl = f.YoutubePlaylist
