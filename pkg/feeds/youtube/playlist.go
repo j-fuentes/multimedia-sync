@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	youtube "github.com/kkdai/youtube/v2"
+	ffmpeg "github.com/u2takey/ffmpeg-go"
 )
 
 type YoutubePlaylistFeed struct {
@@ -62,7 +63,8 @@ func downloadVideo(client youtube.Client, video *youtube.Video, path string) err
 		return fmt.Errorf("cannot get stream: %w", err)
 	}
 
-	file, err := os.Create(path)
+	tmpPath := path + ".tmp"
+	file, err := os.Create(tmpPath)
 	if err != nil {
 		return fmt.Errorf("cannot create file: %w", err)
 	}
@@ -73,7 +75,24 @@ func downloadVideo(client youtube.Client, video *youtube.Video, path string) err
 		return fmt.Errorf("cannot download stream: %w", err)
 	}
 
-	// TODO: add metadata to file: author, title, etc.
+	defer os.Remove(tmpPath)
+	return addMetadata(tmpPath, path, video)
+}
 
-	return nil
+func addMetadata(in string, out string, video *youtube.Video) error {
+	args := []ffmpeg.KwArgs{
+		{"c": "copy"},
+	}
+	// metadata keys: https://wiki.multimedia.cx/index.php/FFmpeg_Metadata
+	metadata := map[string]string{
+		"title": video.Title,
+		"author": video.Author,
+		"description": video.Description,
+		"show": video.Author,
+	}
+	for k, v := range metadata {
+		args = append(args, ffmpeg.KwArgs{"metadata": fmt.Sprintf("%s=%s", k, v)})
+	}
+	// -codec=copy: so it does not transcode and just edits metadata
+	return ffmpeg.Input(in).Output(out, args...).OverWriteOutput().ErrorToStdOut().Run()
 }
